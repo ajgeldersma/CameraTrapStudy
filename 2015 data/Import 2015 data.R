@@ -11,12 +11,12 @@
   # alldirs <- list.dirs("F:/Camera Trap Photos/2015-16")
   # trips <- alldirs[grepl("RECNX", alldirs)]
   # trips <- trips[!grepl("Backups$|Kellogg", trips)]
-  # save(trips, file = "GitHub/Camera-trap-study/2015 data/trips.RData")
-  load("GitHub/Camera-trap-study/2015 data/trips.RData")
+  # save(trips, file = "GitHub/CameraTrapStudy/2015 data/trips.RData")
+  load("GitHub/CameraTrapStudy/2015 data/trips.RData")
   
 ###########################################
   # Bring in abbreviated access database
-  load("C:/Users/anna.moeller/Documents/GitHub/Camera-trap-study/2015 data/access.sum.RData")
+  load("C:/Users/anna.moeller/Documents/GitHub/CameraTrapStudy/2015 data/access.sum.RData")
   access <- access.sum
   
 #############################################
@@ -29,12 +29,12 @@
   
   # 3.2 If there is no metadata, run exif on these folders to get it
   # library(exifr)
-  # source("C:/Users/anna.moeller/Documents/GitHub/Camera-trap-study/2015 data/Exporting metadata.R")
+  # source("C:/Users/anna.moeller/Documents/GitHub/CameraTrapStudy/2015 data/Exporting metadata.R")
   # lapply(nometa, get_meta_fn)
   
 ###############################################
   # Copy over timelapse files as they get finished
-  source("GitHub/Camera-trap-study/2015 data/pull.fn.R")
+  source("GitHub/CameraTrapStudy/2015 data/pull.fn.R")
   
   # # Example call (all new cameras):
   # pull.fn(from = "I:/Camera Trap Photos/2015-16",
@@ -71,7 +71,7 @@
   # BLECH. The PC800s are different too. 
   
   # Clean up metadata and Timelapse, and combine together 
-  source("C:/Users/anna.moeller/Documents/GitHub/Camera-trap-study/2015 data/combine metadata and timelapse 2015.R")
+  source("C:/Users/anna.moeller/Documents/GitHub/CameraTrapStudy/2015 data/combine metadata and timelapse 2015.R")
   
   # Bind them together and fill in NAs if the TIA file wasn't there
   pics1 <- do.call(bind_rows, lapply(trips[1:50], combo_timelapse3_fn))
@@ -126,12 +126,12 @@
       print(pics$SourceFile[which(pics$novalue != 0)])
     }
   
-  #save(pics, file = "C:/Users/anna.moeller/Documents/GitHub/Camera-trap-study/2015 data/pics.wide20160804.RData")
-  load("C:/Users/anna.moeller/Documents/GitHub/Camera-trap-study/2015 data/pics.wide20160804.RData")
+  #save(pics, file = "C:/Users/anna.moeller/Documents/GitHub/CameraTrapStudy/2015 data/pics.wide20160804.RData")
+  load("C:/Users/anna.moeller/Documents/GitHub/CameraTrapStudy/2015 data/pics.wide20160804.RData")
   
 ###############################################
   # Add an event ID to every sighting of an elk
-  source("GitHub/Camera-trap-study/Image Analysis/eventID_fn.R")
+  source("GitHub/CameraTrapStudy/Image Analysis/eventID_fn.R")
   
   # Make an elk dataframe that is smaller to work with
   elkdata <- select(pics, site, plot, cam, timeLST, dateLST, opstate, trigger, viewer, 
@@ -159,13 +159,13 @@
   
 ###############################################
   # Make an elk encounter history
-  source("C:/Users/anna.moeller/Documents/GitHub/Camera-trap-study/Image Analysis/eh_fn.R")
+  source("C:/Users/anna.moeller/Documents/GitHub/CameraTrapStudy/Image Analysis/eh_fn.R")
   elk.eh <- eh_fn(pics, access, starthour = "00:00:00", endhour = "23:00:00", 
                   by_t = "hour", animal.eh = T)
 
 #################################################
   # Create an effort encounter history for all the cameras
-  source("C:/Users/anna.moeller/Documents/GitHub/Camera-trap-study/Image Analysis/eh_fn.R")
+  source("C:/Users/anna.moeller/Documents/GitHub/CameraTrapStudy/Image Analysis/eh_fn.R")
   cam.eh <- eh_fn(pics, access, starthour = "12:00:00", endhour = "12:00:00", 
                   by_t = "hour", animal.eh = F)
   
@@ -198,7 +198,7 @@
   
   # Check for weird count values
   # species: elk, md, wtd, prong, human, predator, other
-  source("GitHub/Camera-trap-study/2015 data/tolong.fn.R")
+  source("GitHub/CameraTrapStudy/2015 data/tolong.fn.R")
   elk <- tolong.fn(pics, species = "elk")
   table(elk$count)
   # All reasonable for elk
@@ -261,7 +261,7 @@
     # files <- lapply(trips, list.files, pattern = "TimelapseData.csv")
     # notimelapse <- trips[which(lapply(files, length) == 0)]
     # timedone <- trips[which(lapply(files, length) != 0)]
-    # #load("C:/Users/anna.moeller/Documents/GitHub/Camera-trap-study/2015 data/timedone.RData")
+    # #load("C:/Users/anna.moeller/Documents/GitHub/CameraTrapStudy/2015 data/timedone.RData")
     # 
     # # Create all the columns in that checklist
     # xx <- gsub(".*/2015-16/(.*)", "\\1", trips)
