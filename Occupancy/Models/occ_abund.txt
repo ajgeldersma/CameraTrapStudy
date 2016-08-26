@@ -1,0 +1,23 @@
+model {
+  # Priors
+    alpha.psi ~ dunif(-10, 10)
+    beta.psi ~ dunif(-10, 10)
+    alpha.p ~ dunif(-10, 10)
+    beta.p ~ dunif(-10, 10)
+    
+  # Likelihood
+    # True state model for the partially observed true state
+    for (i in 1:nsite) {
+      logit(psi[i]) <- alpha.psi + beta.psi * X[i]
+      z[i] ~ dbern(psi[i])             # True occupancy z at site i
+
+      # Observation model for the actual observations
+      for (j in 1:ncam) {
+        for(t in 1:nseas) {
+          logit(p[i, j, t]) <- alpha.p + beta.p * X2[i, j]
+          p.eff[i, j, t] <- z[i] * p[i, j, t]
+          y[i, j, t] ~ dbern(p.eff[i, j, t])
+        } #t
+      } #j
+    } #i
+}

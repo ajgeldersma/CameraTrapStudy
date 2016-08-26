@@ -1,3 +1,9 @@
+# Ignore data
+*.csv
+*.RData
+*.xlsx
+
+# Auto generated ignores below this line
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
