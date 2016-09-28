@@ -6,10 +6,10 @@
   source("GitHub/packages.R")
   
   # Bring in databases
-  load("GitHub/Camera-trap-study/2015 data/pics.wide20160804.RData")
+  load("GitHub/CameraTrapStudy/2015 data/pics.wide20160804.RData")
   
   # Add an event ID to every sighting of an elk
-  source("GitHub/Camera-trap-study/Image Analysis/eventID_fn.R")
+  source("GitHub/CameraTrapStudy/Image Analysis/eventID_fn.R")
   
   # Make an elk dataframe that is smaller to work with
   elkdata <- select(pics, site, plot, cam, timeLST, dateLST, opstate, trigger, viewer, 
@@ -109,7 +109,7 @@
   hist(as.numeric(comp$length[comp$site == "St. Joe"]), main = "St. Joe Event Length", xlab = "Minutes", breaks = 100)
   
   # Plot group size
-  par(mfrow = c(2,1))
+  par(mfrow = c(1,2))
   barplot(prop.table(table(comp$grpsize[comp$site == "Beaverhead"])), main = "Beaverhead Group Size", xlab = "Elk in one event")
   barplot(prop.table(table(comp$grpsize[comp$site == "St. Joe"])), main = "St. Joe Group Size", xlab = "Elk in one event")
 

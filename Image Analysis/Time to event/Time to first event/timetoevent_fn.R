@@ -17,18 +17,18 @@ timetoevent_fn <- function(data, period, datelim, starttime = "12:00:00", specie
   # Makes a vector of sampling period start dates (every "period" days, from the 
   #   first full day to the last full day)
   # Groups by camera
-  # Makes a df of time-to-first-event (or NA) for each camera in each sampling period
+  # Makes a df of time-to-first-event (or NA) (in hours) for each camera in each sampling period
   
   # Make sure dateLST and timeLST are the right class
   stopifnot(class(data$dateLST) == "Date" & class(data$timeLST) == c("POSIXct", "POSIXt"))
   
   # Make a vector of sampling period start dates (every "period" days, from the 
   #   first full day to the last full day)
-  source("GitHub/Camera-trap-study/Image Analysis/Time to event/Time to first event/sampling_start_fn.R")
+  source("GitHub/CameraTrapStudy/Image Analysis/Time to event/Time to first event/sampling_start_fn.R")
   st <- sampling_start_fn(data = data, period = period, datelim = datelim, starttime = starttime)
 
   # Create a list of the time to first event for each camera in each sampling period
-  source("GitHub/Camera-trap-study/Image Analysis/Time to event/Time to first event/first_fn_2015.R")
+  source("GitHub/CameraTrapStudy/Image Analysis/Time to event/Time to first event/first_fn_2015.R")
   first <- first_fn(data = data, start = st, starttime = starttime, period = period, species = species)
 
   return(first)
