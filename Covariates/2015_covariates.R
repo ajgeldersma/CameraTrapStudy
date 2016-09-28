@@ -24,9 +24,6 @@
   library(rts) # For raster time series
   library(gdalUtils) # For projecting and cropping raster
   
-  # Set working directory
-  setwd("C:/Users/anna.moeller/Documents")
-  
 ###############################################
   # Bring in camera plots and points
   # Load GMU and Zone polygon shapefiles

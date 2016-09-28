@@ -44,29 +44,32 @@ first_fn <- function(data, start, starttime, period, species){
     left_join(., idf, by = c("idealtime" = "idealtime")) %>%
     
     # Join this ideal df with the data, to align all the pictures with a event period
+    ### You get an NA here if there were no photos on that day
     left_join(., cht, by = c("cam" = "cam", "idealdate" = "cheat")) %>%
  
-    # Add a column to separate out cameras that don't have a detection in that period
+    # Add a column: T when there is at least one detection in that period, F otherwise
     group_by(per, cam) %>%
-    mutate(willwork = any(elkpresent == T)) 
+    mutate(willwork = any(elkpresent == T, na.rm = T)) 
   
   # Take out the periods with no pictures for later
+  # Because it gets cranky if EVERYTHING is NA
   forlater <- tmp %>% 
-    filter(willwork == F | is.na(willwork)) %>%
-    summarise(pictime = NA,
+    filter(willwork == F) %>%
+    summarise(pictureLST = NA,
               start = min(idealtime)) %>%
     mutate(end = start + days(period),
-           timetopic = NA)
-
+           pictime = NA)
+  
   # find the first picture for every camera for every event period
   ttfe <- tmp %>%
-    filter(willwork == T & !is.na(willwork)) %>%
-    summarise(pictime = min(timeLST[elkpresent == T]),
+    filter(willwork == T) %>%
+    summarise(pictureLST = min(timeLST[elkpresent == T], na.rm = T),
               start = min(idealtime)) %>%
     mutate(end = start + days(period),
-           timetopic = difftime(pictime, start, units = "hours")) %>%
+           pictime = difftime(pictureLST, start, units = "hours")) %>%
     bind_rows(., forlater) %>%
     arrange(cam, per, start)
-                    
+                   
   return(ttfe)
 }
+
