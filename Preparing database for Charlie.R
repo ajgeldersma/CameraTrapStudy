@@ -7,7 +7,7 @@
   load("GitHub/Camera-trap-study/2015 data/pics.wide20160804.RData")
   
   # Preprocess the deer data for eventID function
-  source("GitHub/Camera-trap-study/Image Analysis/deerpresent_fn.R")
+  source("GitHub/CameraTrapStudy/Image Analysis/deerpresent_fn.R")
   mddata <- deerpresent_fn(pics)
   
   # Add an eventID to mule deer
