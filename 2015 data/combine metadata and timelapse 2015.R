@@ -22,7 +22,7 @@ combo_timelapse3_fn <- function(dir){
     stopifnot(dim(meta)[1] == dim(TIA)[1])
     
     # Pick the metadata columns I want to keep
-    source("C:/Users/anna.moeller/Documents/GitHub/Camera-trap-study/2015 data/make_meta_pretty.fn.R")
+    source("GitHub/CameraTrapStudy/2015 data/make_meta_pretty.fn.R")
     meta <- make_meta_pretty.fn(meta)
     
     # Delete things I don't want from Timelapse (including invisible fields)
