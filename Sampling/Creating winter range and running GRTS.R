@@ -331,6 +331,14 @@
   # St. Joe 11/20/2015
   #######################
   
+  # How many collars and points did Jon use for the RSF?
+  tst <- collars[collars$GMT >= as.POSIXct("2015-01-21") & 
+                 collars$GMT <= as.POSIXct("2015-03-31") &
+                 collars$zone == "Panhandle", ]
+  length(unique(tst$serial)) # 73 collars
+  dim(tst)[1] # 5425 points
+
+  
   # Set working directory
   setwd("C:/Users/anna.moeller/Documents")
   
