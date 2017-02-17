@@ -47,9 +47,9 @@
   asp <- raster("GIS Layers/Aspect/aspect.tif")
   
   # Extract mean value to each plot
-  plots$elev <- extract(elev, plots, fun = mean, na.rm = T)
-  plots$slope <- extract(slope, plots, fun = mean, na.rm = T)
-  plots$asp <- extract(asp, plots, fun = mean, na.rm = T)
+  plots$elev <- extract(elev, plots, fun = mean, na.rm = T)[,1] # To make it a column not a matrix
+  plots$slope <- extract(slope, plots, fun = mean, na.rm = T)[,1]
+  plots$asp <- extract(asp, plots, fun = mean, na.rm = T)[,1]
   
   #### Bring in snow
   load("GitHub/Camera-trap-study/Covariates/SWErasterstack.RData")
