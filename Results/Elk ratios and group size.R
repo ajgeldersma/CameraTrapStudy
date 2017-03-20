@@ -102,6 +102,30 @@
               max = max(grpsize),
               sd = sd(grpsize))
   
+  # Do it for just Feb
+  # Group size for every elk event
+  feb <- elkdata %>%
+    filter(eventID != 0,
+           total != 0,
+           month(dateLST) == 2) %>%
+    group_by(eventID) %>%
+    summarise(site = min(site),
+              grpsize = sum(total),
+              length = max(timeLST) - min(timeLST))
+  # Plots
+  par(mfrow = c(1,2),
+      mar = c(5,4,4,2),
+      oma = c(1, 0, 0, 0))
+  bb <- feb %>% 
+    filter(site == "Beaverhead") 
+  hist(bb$grpsize, main = "Beaverhead", xlab = NULL)
+  
+  pp <- feb %>% 
+    filter(site == "St. Joe") 
+  hist(pp$grpsize, main = "Panhandle", xlab = NULL, ylab = NULL)
+  
+  mtext("Group Size", side = 1, outer = T, line = -2)
+  
   # Most events are coming from a single picture
   # barplot(prop.table(table(comp$length[comp$site == "Beaverhead"])), main = "Beaverhead Event Length", xlab = "Minutes")
   # barplot(prop.table(table(comp$length[comp$site == "St. Joe"])), main = "St. Joe Event Length", xlab = "Minutes")
