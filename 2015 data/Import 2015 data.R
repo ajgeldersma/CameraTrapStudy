@@ -156,7 +156,25 @@
   # Look at the events with a count of 0
   length(which(tot$tot == 0))
   
+  # For thesis, how long are events?
+  tst <- elkdata %>%
+    filter(eventID > 0) %>%
+    group_by(eventID)  %>%
+    summarise(len = length(eventID),
+              min = min(as.numeric(timeLST)),
+              max = max(as.numeric(timeLST))) %>%
+    mutate(t = max - min)
+  summary(tst$t)
+  # Mean event = 1282 seconds = 21 minutes
   
+  summary(tst$len)
+  tst2 <- tst %>%
+    filter(len > 1000)
+  elkdata %>%
+    filter(eventID %in% tst2$eventID) %>%
+    group_by(eventID) %>%
+    summarise(sf = first(SourceFile))
+
 ###############################################
   # Make an elk encounter history
   source("C:/Users/anna.moeller/Documents/GitHub/CameraTrapStudy/Image Analysis/eh_fn.R")

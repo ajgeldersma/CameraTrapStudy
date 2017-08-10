@@ -16,7 +16,6 @@ get_meta_fn <- function(dir){
   print("Success!")
 }
 
-
 # # Start the clock
 # start <- Sys.time()
 # # Call the function
