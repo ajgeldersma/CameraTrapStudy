@@ -5,7 +5,7 @@ Useful code:
 [Moving pictures](https://github.com/annam21/CameraTrapStudy/blob/master/Moving%20photos/Pulling%20out%20pictures.R) - how to move photos taken at a certain time 
 to a new folder. 
 
-Sampling/GRTS to Jessie - example of performing GIS and GRTS in R
+[GRTS example](https://github.com/annam21/CameraTrapStudy/blob/master/Sampling/GRTS%20to%20Jessie.R) - example of performing GIS and GRTS in R
 
-Covariates/2015 covariates - downloading, organizing, and saving remote sensing data
+[Download covariates](https://github.com/annam21/CameraTrapStudy/blob/master/Covariates/2015_covariates.R) - downloading, organizing, and saving remote sensing data
 
