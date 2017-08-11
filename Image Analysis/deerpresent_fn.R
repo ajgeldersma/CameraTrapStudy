@@ -4,35 +4,47 @@
   
   deerpresent_fn <- function(data) {
     # Takes a dataframe with columns: counts of MD (by class), counts of WTD (by class), deerpresent
-    # Looks where the count of MD or WTD > 0 and deerpresent is True. (conservative approach)
     # Makes 2 columns: mdpresent, wtdpresent
+    # When deerpresent == T, it puts in the last detected species
+    # conservative: it will ignore counts if deerpresent == F
+    # If both species are present, both columns will say T
+    # For a new deerpresent == T with no count, both columns will say F
     mdcols <- grep("md", names(data), ignore.case = T)
     wtdcols <- grep("wtd", names(data), ignore.case = T)
     tmp <- data %>%
       mutate(md = apply(.[, mdcols], 1, sum, na.rm = T),
              wtd = apply(.[, wtdcols], 1, sum, na.rm = T),
-             mdpresent = ifelse(md > 0 & deerpresent == T, T, F),
-             wtdpresent = ifelse(wtd > 0 & deerpresent == T, T, F)
-      )
+             mdpresent = ifelse(md > 0 & deerpresent == T, T, ifelse(deerpresent == T & md == 0 & wtd == 0, NA, F)), 
+             wtdpresent = ifelse(wtd > 0 & deerpresent == T, T, ifelse(deerpresent == T & md == 0 & wtd == 0, NA, F)),
+             mdpresent = zoo::na.locf(mdpresent),
+             wtdpresent = zoo::na.locf(wtdpresent)
+        ) %>%
+      select(-md, -wtd, -deerpresent)
     
+    
+    # tmp <- data %>%
+    #   mutate(md = apply(.[, mdcols], 1, sum, na.rm = T),
+    #          wtd = apply(.[, wtdcols], 1, sum, na.rm = T),
+    #          deerspp = ifelse(md > 0, "md", ifelse(wtd > 0, "wtd", ifelse(deerpresent == F, "none", NA)) ),
+    #          deerspp = zoo::na.locf(deerspp),
+    #          mdpresent = ifelse(deerspp == "md", T, F), 
+    #          wtdpresent = ifelse(deerspp == "wtd", T, F)
+    #          ) %>%
+    #   select(-md, -wtd, -deerpresent, -deerspp)
+
     # Give a warning if MD and WTD are in the same picture (possible, but maybe a mistake)
     ww <- length(which(tmp$mdpresent == T & tmp$wtdpresent == T))
     warning(ww > 0, paste0(" MD and WTD present together in ", ww, " pictures"))
-    
-    # I'm going to keep mdpresent and wtdpresent everywhere there is a count and ignore
-    #   where there is a count but deerpresent is F. 
-    # Give a warning though
-    nomd <- length(which(tmp$md > 0 & tmp$deerpresent == F))
-    nowtd <- length(which(tmp$wtd > 0 & tmp$deerpresent == F))
-    warning(nomd > 0, paste0(" ", nomd, " records ignored because MD counted but deerpresent False"))
-    warning(nowtd > 0, paste0(" ", nowtd, " records ignored because WTD counted but deerpresent False"))
-    
-    tmp2 <- tmp %>%
-      select(-md, -wtd, -deerpresent)
-    return(tmp2)
+
+    return(tmp)
   }
 
-
+  # # Dataframe to test it out
+  # data <- data.frame(MDbuck = c(0,0,0,1,0,0,1,1),
+  #                    MDantlerless = c(0,0,0,1,0,0,0,0),
+  #                    WTDbuck = c(1,0,0,0,0,0,0,1),
+  #                    WTDfawn = c(0,0,1,0,0,0,0,0),
+  #                    deerpresent = c(T,T,T,T,F,T,F,T) )
 
   # 8/9/2016
   # # Separate out deerpresent
