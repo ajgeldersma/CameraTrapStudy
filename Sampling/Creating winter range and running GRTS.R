@@ -161,7 +161,8 @@
   
   # make raster into spatial polygons, give each cell a unique ID
   fishpoly <- rasterToPolygons(fish2, fun = function(x){x == 1})
-  fishpoly$ID <- seq(1:length(fishpoly$gaplc_IDTM))
+  # fishpoly$ID <- seq(1:length(fishpoly$gaplc_IDTM))
+  fishpoly$ID <- row.names(fishpoly)
   
   # run grts on grid, sample 10, oversample 10
   design <- list(None = list(panel = c(Panel = 10), seltype = "Equal", over = 10))
