@@ -84,6 +84,20 @@
   
 ##################################################
   # Group size
+  
+  # Plot group size for Beaverhead Feb 1-Feb 13 for manuscript
+  datelim <- as.Date(c("2016-02-01", "2016-02-13"))
+  feb <- elkdata %>%
+    filter(eventID != 0,
+           total != 0,
+           site == "Beaverhead",
+           datelim[1] <= dateLST & dateLST <= datelim[2]) %>%
+    group_by(eventID) %>%
+    summarise(site = min(site),
+              grpsize = sum(total),
+              length = max(timeLST) - min(timeLST))
+  hist(feb$grpsize, main = NULL, xlab = NULL, breaks = 10)
+  # saved it
 
   # Group size for every elk event
   comp <- elkdata %>%
